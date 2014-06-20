@@ -16,12 +16,10 @@ var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
     socket.on('message', function (message) {
 	if (message != "") {
-        fs.appendFile('chat.txt', '<div class="message"><p> Anonymous: ' + message +  ' </p></div>', function (err) {
-	    if (err) throw err;
-	});}
-        fs.readFile('chat.txt', {encoding: 'utf-8'}, function (err, data) {
-	    if (err) throw err;
-	    socket.emit('receive', data);
+            fs.appendFileSync('Messages.txt', '<div class="message"><p> Anonymous: ' + message +  ' </p></div>');}
+            fs.readFile('Messages.txt', {encoding: 'utf-8'}, function (err, data) {
+		if (err) throw err;
+		socket.emit('receive', data);
 	});
     });
 });
